@@ -1,0 +1,45 @@
+ALGORITHM htab_comm_distinct
+    
+VAR
+    set1: ARRAY_OF INTEGER[n1];
+    set2: ARRAY_OF INTEGER[n2];
+    set: ARRAY_OF INTEGER[n1+n2];
+    i,j,k,l,Sum_Comm, Sum_dist: INTEGER;
+    HASH_TABLE<INTEGER,INTEGER>
+BEGIN
+    Sum_Comm:=0;
+    Sum_dist:=0;
+    write("please type the length of set1")
+    read(n1)
+    write("please type the length of set2")
+    read(n2)
+    write("please enter the el of set1")
+     FOR k FROM 1 TO n1  DO
+        read(set1[k])
+     END_FOR
+    write("please enter the el of set2")
+     FOR l FROM 1 TO n2  DO
+        read(set2[l])
+     END_FOR
+    //concat the 2 sets
+    set := concat(set1,set2);
+
+    FOR i FROM 1 TO n1+n2 STEP step  DO
+        IF (htab.lookup(set[i])= false) THEN
+            htab.insert(set[i],1)
+            ELSE 
+            htab.insert(set[i], htab.get(set[i]) + 1)
+        END_IF
+    END_FOR
+
+    FOR  item in htab  DO
+            IF (item[1]>1) THEN
+                Sum_Comm = Sum_Comm + (item[0]*item[1])
+                ELSE 
+                Sum_dist = Sum_dist + item[0]
+            END_IF
+        END_FOR
+     
+    write("la somme des el communs est ",Sum_Comm)
+    write("la somme des el distincts est ",Sum_dist)
+END
